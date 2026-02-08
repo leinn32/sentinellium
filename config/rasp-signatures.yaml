@@ -1,0 +1,128 @@
+# Sentinellium — RASP SDK Fingerprint Signatures
+#
+# Each entry describes a known RASP/protection SDK with indicators used
+# for automated identification. Confidence scoring:
+#   native_lib exact match: +40
+#   java_class match:       +30
+#   string_pattern match:   +15
+#   behavioral match:       +15
+#   Threshold for positive ID: 60
+
+signatures:
+  wultra:
+    display_name: "Wultra In-App Protection"
+    # Source: Wultra public integration docs and PowerAuth SDK references
+    indicators:
+      native_libs:
+        - "libWultraAppProtection.so"
+        - "libWultra*.so"
+        - "libPowerAuth*.so"
+      java_classes:
+        - "io.wultra.app.protection.*"
+        - "com.wultra.android.powerauth.*"
+        - "io.getlime.security.*"
+      asset_files:
+        - "wultra_*.json"
+      string_patterns:
+        - "WultraAppProtection"
+        - "PowerAuth"
+        - "io.wultra"
+
+  promon:
+    display_name: "Promon SHIELD"
+    # Source: Promon SHIELD integration guide, libshield.so is the core native lib
+    indicators:
+      native_libs:
+        - "libshield.so"
+        - "libpromon*.so"
+      java_classes:
+        - "no.promon.shield.*"
+        - "no.promon.shieldlib.*"
+      string_patterns:
+        - "PromonShield"
+        - "SHIELD_"
+        - "promon.shield"
+
+  guardsquare:
+    display_name: "Guardsquare DexGuard/iXGuard"
+    # Source: DexGuard documentation; obfuscated single-letter packages are
+    # a well-known DexGuard artifact from its aggressive class renaming
+    indicators:
+      native_libs:
+        - "libdexguard*.so"
+      java_classes:
+        - "com.guardsquare.*"
+      dex_patterns:
+        - "DexGuard"
+      string_patterns:
+        - "dexguard"
+        - "guardsquare"
+        - "iXGuard"
+
+  appdome:
+    display_name: "Appdome"
+    # Source: Appdome codeless integration injects these components into the APK
+    indicators:
+      native_libs:
+        - "libappdome*.so"
+        - "libloader.so"
+      java_classes:
+        - "com.appdome.*"
+      manifest_components:
+        - "com.appdome.SdkService"
+      string_patterns:
+        - "appdome"
+
+  talsec:
+    display_name: "Talsec freeRASP"
+    # Source: Talsec freeRASP open-source SDK (GitHub: AheadItec/freeRASP-Android)
+    indicators:
+      native_libs:
+        - "libfreerasp.so"
+        - "libtalsec*.so"
+      java_classes:
+        - "com.aheaditec.talsec_security.*"
+        - "com.aheaditec.talsec.*"
+      string_patterns:
+        - "freeRASP"
+        - "talsec"
+        - "aheaditec"
+
+  liapp:
+    display_name: "LIAPP"
+    # Source: LIAPP (Lockin) app protection — Korean RASP vendor
+    indicators:
+      native_libs:
+        - "libliapp*.so"
+        - "liblockin*.so"
+      java_classes:
+        - "com.lockincomp.*"
+      string_patterns:
+        - "LIAPP"
+        - "lockin"
+
+  arxan:
+    display_name: "Digital.ai (Arxan) App Protection"
+    # Source: Arxan/Digital.ai application protection SDK
+    indicators:
+      native_libs:
+        - "libaxan*.so"
+        - "libdigitalai*.so"
+      java_classes:
+        - "com.arxan.*"
+        - "com.digitalai.*"
+      string_patterns:
+        - "arxan"
+        - "digital.ai"
+
+  unknown:
+    display_name: "Unknown/Custom RASP"
+    # Heuristic-based detection for unrecognized RASP implementations.
+    # These behavioral patterns suggest RASP activity even without
+    # matching a known SDK signature.
+    indicators:
+      heuristic_native_behaviors:
+        - "ptrace_self_attach_on_init"
+        - "maps_scanning_thread"
+        - "signature_check_in_jni_onload"
+        - "periodic_integrity_check"

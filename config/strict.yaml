@@ -1,0 +1,56 @@
+# Sentinellium — Strict Configuration
+#
+# All modules enabled with aggressive settings for thorough RASP audits.
+# Use this configuration when you want maximum coverage and are willing
+# to accept higher noise levels.
+
+modules:
+  native-loader:
+    enabled: true
+    suspicious_paths:
+      - "/data/local/tmp"
+      - "/data/data/*/lib-custom/"
+      - "/data/data/*/cache/"
+      - "/sdcard/"
+      - "/mnt/sdcard/"
+    suspicious_patterns:
+      - "frida"
+      - "xposed"
+      - "substrate"
+      - "magisk"
+      - "inject"
+      - "hook"
+      - "patch"
+      - "cydia"
+      - "lsposed"
+      - "edxposed"
+      - "riru"
+      - "zygisk"
+
+  frida-detection:
+    enabled: true
+    frida_port: 27042
+
+  jni-tracer:
+    enabled: true
+
+  integrity:
+    enabled: true
+    interval_seconds: 2
+    watched_libs:
+      - "libart.so"
+      - "libdvm.so"
+      - "libc.so"
+
+  network-probe:
+    enabled: true
+    private_ranges:
+      - "10.0.0.0/8"
+      - "172.16.0.0/12"
+      - "192.168.0.0/16"
+      - "127.0.0.0/8"
+
+policy:
+  critical: "detach"
+  warning: "log"
+  info: "log"

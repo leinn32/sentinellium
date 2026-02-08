@@ -1,0 +1,67 @@
+# Sentinellium — Default Configuration
+#
+# Each module can be individually enabled/disabled. Module-specific options
+# are documented inline. All values shown are the defaults — you only need
+# to override what you want to change.
+
+modules:
+  # NativeLoaderMonitor: Hooks android_dlopen_ext to monitor native library loading.
+  # Detects injection of Frida gadgets, Xposed modules, and custom payloads.
+  native-loader:
+    enabled: true
+    # Paths considered suspicious — any library loaded from these prefixes
+    # is flagged as critical. Supports simple wildcards (*).
+    suspicious_paths:
+      - "/data/local/tmp"
+      - "/data/data/*/lib-custom/"
+    # Substring patterns — if a library path contains any of these strings,
+    # it's flagged as critical. Case-insensitive matching.
+    suspicious_patterns:
+      - "frida"
+      - "xposed"
+      - "substrate"
+      - "magisk"
+
+  # FridaDetectionAuditor: Scores how visible Frida is to the target app.
+  # Implements the same checks RASP SDKs use to detect instrumentation.
+  frida-detection:
+    enabled: true
+    # Port where frida-server listens. Change if using a non-default port.
+    frida_port: 27042
+
+  # JNITransitionTracer: Traces Java↔Native boundary calls through ART.
+  # Maps which native functions the RASP SDK relies on.
+  jni-tracer:
+    enabled: true
+
+  # IntegrityBaseline: Detects runtime code patching via memory hashing.
+  # Snapshots .text sections and alerts on modification.
+  integrity:
+    enabled: true
+    # Re-check interval in seconds. Lower values catch patches faster
+    # but increase CPU overhead on the target.
+    interval_seconds: 5
+    # Libraries to watch for integrity violations. The module also
+    # auto-discovers app-specific .so files from /data/app/ and /data/data/.
+    watched_libs:
+      - "libart.so"
+
+  # NetworkProbe: Monitors native connect() calls for suspicious traffic.
+  # Disabled by default — very noisy on Android due to system services.
+  network-probe:
+    enabled: false
+    # CIDR ranges considered private/local (connections to these are ignored).
+    private_ranges:
+      - "10.0.0.0/8"
+      - "172.16.0.0/12"
+      - "192.168.0.0/16"
+      - "127.0.0.0/8"
+
+# Policy configuration for simulate mode.
+# Maps severity levels to actions:
+#   "detach" — terminate the session (simulates RASP app kill)
+#   "log"    — log the event and continue
+policy:
+  critical: "detach"
+  warning: "log"
+  info: "log"

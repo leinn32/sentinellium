@@ -1,0 +1,30 @@
+# Sentinellium CI — Pass/fail thresholds for RASP validation.
+#
+# Defines what constitutes a "passing" RASP audit in CI.
+# Used by runner.py to evaluate scan results and produce
+# exit codes for CI systems (0 = pass, 1 = fail).
+
+# Required detections: each module/check that must succeed.
+# If a required check is "module_unavailable" or "not_detected",
+# the CI run fails.
+required_detections:
+  native-loader:
+    dlopen_ext_hook: true          # Must successfully hook android_dlopen_ext
+  frida-detection:
+    maps_scan: true                # Must detect Frida in /proc/self/maps
+    port_scan: true                # Must detect Frida server port
+    trampoline_scan: true          # Must detect inline hook trampolines
+  jni-tracer:
+    art_jni_call_hook: true        # Must successfully trace JNI calls
+  integrity:
+    text_hash_baseline: true       # Must establish integrity baseline
+
+# Maximum acceptable risk score.
+# A well-protected app should have a LOW risk score (RASP is blocking threats).
+# If the risk score exceeds this threshold, the RASP is not adequately protecting.
+max_risk_score: 40
+
+# Conditions that cause immediate CI failure regardless of other results.
+fail_on:
+  - module_unavailable              # Any module that can't load its hooks
+  - uncaught_exception              # Any unhandled error in agent

@@ -1,0 +1,64 @@
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                              Sentinellium — Live Telemetry                               ┃
+┡━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━┯━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Time       │ Module             │ Severity │ Details                                     │
+├────────────┼────────────────────┼──────────┼─────────────────────────────────────────────┤
+│ 14:32:01.2 │ native-loader      │ INFO     │ library_load_attempt | path=/system/lib64/  │
+│            │                    │          │ libc.so                                     │
+│ 14:32:01.2 │ native-loader      │ INFO     │ library_load_result | path=/system/lib64/   │
+│            │                    │          │ libc.so | success=true                      │
+│ 14:32:01.3 │ native-loader      │ INFO     │ library_load_attempt | path=/system/lib64/  │
+│            │                    │          │ libart.so                                   │
+│ 14:32:01.5 │ native-loader      │ CRITICAL │ suspicious_library_load | path=/data/local/ │
+│            │                    │          │ tmp/frida-agent-64.so | rule=pattern:frida  │
+│            │                    │          │ 0x7f3a000000 linker64!android_dlopen_ext    │
+│            │                    │          │ 0x7f3a100000 libart.so!Runtime::Init        │
+│ 14:32:02.0 │ frida-detection    │ INFO     │ memory_maps | clean | No Frida artifacts    │
+│            │                    │          │ found in /proc/self/maps                    │
+│ 14:32:02.1 │ frida-detection    │ CRITICAL │ port_scan | frida_server_listening |        │
+│            │                    │          │ port=27042                                  │
+│ 14:32:02.3 │ frida-detection    │ WARNING  │ trampoline_scan | hook_detected |           │
+│            │                    │          │ library=libart.so | function=_ZN3art6Thread │
+│ 14:32:02.5 │ frida-detection    │ WARNING  │ thread_scan | suspicious_thread |           │
+│            │                    │          │ thread_name=gmain                           │
+│ 14:32:02.5 │ frida-detection    │ WARNING  │ thread_scan | suspicious_thread |           │
+│            │                    │          │ thread_name=gdbus                           │
+│ 14:32:02.6 │ frida-detection    │ WARNING  │ thread_scan | suspicious_thread |           │
+│            │                    │          │ thread_name=gum-js-loop                     │
+│ 14:32:03.0 │ jni-tracer         │ INFO     │ jni_call | class=android.app.Activity |    │
+│            │                    │          │ method=onCreate                             │
+│ 14:32:03.1 │ jni-tracer         │ WARNING  │ rasp_jni_call | class=com.rasp.sdk |       │
+│            │                    │          │ method=checkRootStatus                      │
+│ 14:32:03.2 │ jni-tracer         │ WARNING  │ rasp_jni_call | class=com.rasp.sdk |       │
+│            │                    │          │ method=verifySignature                      │
+│ 14:32:05.0 │ integrity          │ INFO     │ integrity_check_passed |                    │
+│            │                    │          │ sections_verified=12                        │
+│ 14:32:10.0 │ integrity          │ INFO     │ integrity_check_passed |                    │
+│            │                    │          │ sections_verified=12                        │
+│ 14:32:15.0 │ integrity          │ CRITICAL │ integrity_violation | library=libart.so |   │
+│            │                    │          │ expected_hash=a1b2c3... |                   │
+│            │                    │          │ actual_hash=d4e5f6...                       │
+└────────────┴────────────────────┴──────────┴─────────────────────────────────────────────┘
+ Total: 17 events | 3 critical | 5 warning | 9 info
+
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    Session Summary                                       │
+│                      3 critical | 5 warning | 9 info                                     │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│                         Risk Score — jakhar.aseem.diva                                   │
+│                                    75/100                                                │
+│                               Duration: 30s                                              │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                   Module Summary                                         ┃
+┡━━━━━━━━━━━━━━━━━━━━┯━━━━━━━┯━━━━━━━━━━┯━━━━━━━━━┯━━━━━━┩
+│ Module             │ Total │ Critical │ Warning │ Info │
+├────────────────────┼───────┼──────────┼─────────┼──────┤
+│ frida-detection    │   6   │    1     │    4    │  1   │
+│ integrity          │   3   │    1     │    0    │  2   │
+│ jni-tracer         │   3   │    0     │    2    │  1   │
+│ native-loader      │   5   │    1     │    0    │  4   │
+└────────────────────┴───────┴──────────┴─────────┴──────┘

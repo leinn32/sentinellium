@@ -1,0 +1,54 @@
+name: 'Sentinellium RASP Audit'
+description: 'Run RASP detection regression tests on Android APKs'
+author: 'Sentinellium'
+
+inputs:
+  apk-path:
+    description: 'Path to the APK to audit'
+    required: true
+  config:
+    description: 'Path to sentinellium config YAML'
+    default: 'config/default.yaml'
+  thresholds:
+    description: 'Path to pass/fail thresholds YAML'
+    default: 'ci/thresholds.yaml'
+  android-api-levels:
+    description: 'Comma-separated API levels to test against'
+    default: '30,33,34'
+  duration:
+    description: 'Scan duration in seconds'
+    default: '30'
+  fail-on-threshold:
+    description: 'Fail the action if any threshold is not met'
+    default: 'true'
+
+outputs:
+  risk-score:
+    description: 'Computed risk score (0-100)'
+  report-path:
+    description: 'Path to the JSON report'
+  junit-path:
+    description: 'Path to the JUnit XML report'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - '--apk'
+    - ${{ inputs.apk-path }}
+    - '--config'
+    - ${{ inputs.config }}
+    - '--thresholds'
+    - ${{ inputs.thresholds }}
+    - '--duration'
+    - ${{ inputs.duration }}
+    - '--output'
+    - 'report.json'
+    - '--junit'
+    - 'results.xml'
+  env:
+    ANDROID_API_LEVELS: ${{ inputs.android-api-levels }}
+
+branding:
+  icon: 'shield'
+  color: 'blue'

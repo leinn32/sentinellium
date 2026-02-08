@@ -1,0 +1,58 @@
+# Sentinellium — iOS Default Configuration
+#
+# Module configuration for iOS targets. Loaded automatically when the
+# agent detects Process.platform === "darwin".
+
+modules:
+  # RaspFingerprinter: Auto-detect which RASP SDK protects the app
+  rasp-fingerprint:
+    enabled: true
+
+  # DyldMonitor: Dynamic linker monitoring via dlopen + dyld callbacks
+  dyld-monitor:
+    enabled: true
+    suspicious_paths:
+      - "/Library/MobileSubstrate/"
+      - "/usr/lib/TweakInject/"
+      - "/usr/lib/substrate/"
+    suspicious_patterns:
+      - "substrate"
+      - "cycript"
+      - "frida"
+      - "tweakinject"
+      - "substitute"
+      - "libhooker"
+      - "ellekit"
+
+  # ObjCTracer: Selective Objective-C message tracing
+  objc-tracer:
+    enabled: true
+    targets:
+      - className: "NSFileManager"
+        selectors:
+          - "fileExistsAtPath:"
+          - "contentsOfDirectoryAtPath:error:"
+      - className: "NSURLSession"
+        selectors:
+          - "dataTaskWithRequest:completionHandler:"
+      - className: "UIApplication"
+        selectors:
+          - "canOpenURL:"
+      - className: "NSProcessInfo"
+        selectors:
+          - "environment"
+
+  # MachOIntegrity: Mach-O binary integrity via __text section hashing
+  macho-integrity:
+    enabled: true
+    interval_seconds: 5
+    watched_libs: []
+
+  # JailbreakDetectionAuditor: Jailbreak indicator scanning
+  jailbreak-detection:
+    enabled: true
+
+policy:
+  critical: "detach"
+  warning: "log"
+  info: "log"
