@@ -2,7 +2,7 @@
 
 A modular Android & iOS instrumentation framework for auditing RASP (Runtime Application Self-Protection) implementations. Built on Frida with optional eBPF kernel probes, Sentinellium hooks into mobile processes at the native layer to evaluate how effectively a RASP SDK detects instrumentation, injection, and tampering.
 
-Designed for security researchers and pentesters who need to assess the coverage and resilience of mobile protection solutions like Wultra's In-App Protection SDK.
+Designed for security researchers and pentesters who need to assess the coverage and resilience of mobile protection solutions.
 
 ## Architecture
 
