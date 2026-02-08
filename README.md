@@ -101,7 +101,7 @@ graph LR
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourname/sentinellium.git
+git clone https://github.com/leinn32/sentinellium.git
 cd sentinellium
 
 # Install Python package
