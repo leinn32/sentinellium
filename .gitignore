@@ -29,6 +29,12 @@ Thumbs.db
 htmlcov/
 .pytest_cache/
 
+# Vendored dependencies
+kahlo-mcp/
+
+# MCP server build output
+mcp-server/dist/
+
 # Claude Code
 .claude/
 

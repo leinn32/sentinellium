@@ -115,6 +115,75 @@ signatures:
         - "arxan"
         - "digital.ai"
 
+  dexprotector:
+    display_name: "DexProtector"
+    # Source: APKiD YARA rules; DexProtector uses multiple native lib names
+    # and encrypted asset files for its protection payload.
+    indicators:
+      native_libs:
+        - "libdexprotector*.so"
+        - "libalice.so"
+      asset_files:
+        - "dp.*.so.dat"
+      string_patterns:
+        - "DexProtector"
+        - "dexprotector"
+
+  appsealing:
+    display_name: "AppSealing (INKA Entworks)"
+    # Source: APKiD rules and AppSealing integration docs
+    indicators:
+      native_libs:
+        - "libcovault.so"
+        - "libcovault-appsec.so"
+      asset_files:
+        - "appsealing.dex"
+        - "sealed1.dex"
+      string_patterns:
+        - "AppSealing"
+        - "covault"
+
+  tencent_legu:
+    display_name: "Tencent Legu"
+    # Source: APKiD packer rules; Legu is the most common Chinese packer
+    indicators:
+      native_libs:
+        - "libshell.so"
+        - "libmobisecy.so"
+      string_patterns:
+        - "tencent.legu"
+        - "com.tencent.StubShell"
+
+  qihoo_360:
+    display_name: "Qihoo 360 Jiagu"
+    # Source: APKiD packer rules; widely used Chinese app hardening
+    indicators:
+      native_libs:
+        - "libjiagu.so"
+        - "libjiagu_art.so"
+        - "libprotectClass.so"
+      string_patterns:
+        - "jiagu"
+        - "qihoo"
+
+  verimatrix:
+    display_name: "Verimatrix XTD"
+    # Source: Verimatrix developer documentation
+    indicators:
+      java_classes:
+        - "com.verimatrix.stublib.*"
+      string_patterns:
+        - "verimatrix"
+
+  zimperium:
+    display_name: "Zimperium zShield"
+    # Source: Zimperium developer documentation
+    indicators:
+      java_classes:
+        - "com.zimperium.*"
+      string_patterns:
+        - "zimperium"
+
   unknown:
     display_name: "Unknown/Custom RASP"
     # Heuristic-based detection for unrecognized RASP implementations.

@@ -1,0 +1,42 @@
+# Sentinellium Intelligence Pipeline — Configuration
+#
+# Drives the AndroZoo-based RASP signature collection pipeline.
+# Requires an institutional email to obtain an API key from androzoo@uni.lu
+
+androzoo:
+  api_key: ""  # Set via ANDROZOO_API_KEY env var or here
+  csv_url: "https://androzoo.uni.lu/static/lists/latest_with-added-date.csv.gz"
+  download_endpoint: "https://androzoo.uni.lu/api/download"
+  rate_limit_per_6mo: 500000
+
+collection:
+  # Only scan Play Store apps (most likely to use commercial RASP)
+  markets_filter: ["play.google.com"]
+  # Minimum APK size (bytes) — RASP SDKs add native libs, so look at larger APKs
+  min_apk_size: 5000000
+  # Maximum samples per weekly batch
+  batch_size: 5000
+  # Output directory for downloaded APKs (ephemeral — delete after scanning)
+  download_dir: "./tmp/apks"
+  # Results output
+  results_dir: "./results"
+
+scanning:
+  # Enable/disable scan layers (Layer 1 is fastest, Layer 2 slowest)
+  layer1_zip_entries: true
+  layer2_dex_classes: true
+  layer3_strings: true
+  layer4_manifest: true
+  layer5_apkid: false  # Requires apkid installed separately
+  # Only run expensive layers (2,4) if cheaper layers found nothing
+  cascade_mode: true
+
+discovery:
+  # Minimum APK count for a co-occurring pattern to be flagged as candidate
+  min_cooccurrence: 20
+  # Minimum confidence for auto-adding to signatures (manual review otherwise)
+  auto_add_threshold: 80
+
+output:
+  # Path to update with new signatures
+  signatures_path: "../config/rasp-signatures.yaml"

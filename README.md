@@ -1,6 +1,6 @@
 # Sentinellium
 
-A modular RASP auditing framework for Android and iOS. Built as an MCP server on top of [Kahlo](https://github.com/ArtisanLabs/kahlo) — Sentinellium gives AI agents the tools to orchestrate RASP (Runtime Application Self-Protection) audits without reimplementing Frida plumbing.
+A modular RASP auditing framework for Android and iOS. Built as an MCP server on top of [Kahlo](https://github.com/FuzzySecurity/kahlo-mcp) — Sentinellium gives AI agents the tools to orchestrate RASP (Runtime Application Self-Protection) audits without reimplementing Frida plumbing.
 
 Sentinellium also ships a standalone Frida agent + Python host for direct instrumentation without Kahlo. The Kahlo integration adds orchestration, module management, and MCP-native tool access.
 
@@ -106,7 +106,7 @@ All modules are vanilla JS — no imports, no require(). They use Kahlo's `ctx` 
 ### Prerequisites
 
 - Node.js 18+
-- Kahlo MCP server ([installation guide](https://github.com/ArtisanLabs/kahlo))
+- Kahlo MCP server ([FuzzySecurity/kahlo-mcp](https://github.com/FuzzySecurity/kahlo-mcp))
 - Android device/emulator with `frida-server` running
 
 ### Installation
