@@ -1,0 +1,10 @@
+# Sentinellium — Monitor RASP Simulation Policy
+#
+# Observe-only mode: all findings are logged but no action is taken.
+# The target app continues running regardless of what's detected.
+#
+# Use this for initial reconnaissance — collect all events without
+# interference, then review and decide on a response strategy.
+
+critical: log
+warning: log

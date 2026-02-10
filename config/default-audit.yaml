@@ -1,0 +1,69 @@
+# Sentinellium — Default Audit Configuration
+#
+# Controls which modules run during a sentinellium_audit and their parameters.
+# Override per-module params by merging this with ctx.params at job start.
+
+audit:
+  duration_seconds: 30
+  mode: attach           # attach | spawn
+
+modules:
+  rasp-fingerprint:
+    enabled: true
+    type: oneshot
+
+  frida-detect:
+    enabled: true
+    type: oneshot
+    params:
+      frida_port: 27042
+
+  native-loader:
+    enabled: true
+    type: daemon
+    params:
+      suspicious_paths:
+        - "/data/local/tmp"
+        - "/data/data/*/lib-custom/"
+      suspicious_patterns:
+        - "frida"
+        - "xposed"
+        - "substrate"
+        - "magisk"
+        - "lsposed"
+      heartbeat_seconds: 10
+
+  jni-tracer:
+    enabled: true
+    type: daemon
+    params:
+      throttle_ms: 100
+      heartbeat_seconds: 10
+
+  integrity:
+    enabled: true
+    type: daemon
+    params:
+      interval_seconds: 5
+      watched_libs:
+        - "libart.so"
+      heartbeat_seconds: 10
+
+  network-probe:
+    enabled: false         # Disabled by default — very noisy
+    type: daemon
+    params:
+      private_ranges:
+        - "10.0.0.0/8"
+        - "172.16.0.0/12"
+        - "192.168.0.0/16"
+        - "127.0.0.0/8"
+      heartbeat_seconds: 10
+
+scoring:
+  error_points: 15
+  warning_points: 5
+  module_error_bonus: 10
+  low_detection_surface_bonus: 10
+  unknown_sdk_bonus: 5
+  max_score: 100

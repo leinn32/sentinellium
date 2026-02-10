@@ -1,0 +1,10 @@
+# Sentinellium — Strict RASP Simulation Policy
+#
+# Simulates an aggressive RASP response: critical findings trigger
+# immediate target detach (app kill), warnings are logged.
+#
+# Use this to test how a hardened RASP would react to the current
+# instrumentation setup. If the app survives, stealth is working.
+
+critical: kill
+warning: log
